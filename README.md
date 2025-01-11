@@ -7,7 +7,7 @@ Framework for developing webGPU graphic applications using modern C++. This fram
 
 The minimal running application that only displays a blank window:
 
-~~~
+~~~C++
 #include "WGF4.h"
 
 int main()
