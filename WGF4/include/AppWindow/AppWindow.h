@@ -136,6 +136,8 @@ namespace WGF
 
 		void UseDepth(DepthTexFormat format = Depth24Plus);
 
+		inline bool DepthEnabled() const { return m_useDepth; }
+
 		WGPUTextureFormat GetDepthFormat() { return m_depthTexture.GetDescriptor().format; }
 
 		WGPUTextureView GetDepthTexView() { return m_depthTexture.GetView(); }

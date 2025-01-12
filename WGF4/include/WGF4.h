@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Framework/Instance.h"
+#include "GraphicObject/Passes/ScreenPassFactory.h"
 
 namespace WGF
 {
