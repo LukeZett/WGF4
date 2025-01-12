@@ -56,5 +56,7 @@ namespace WGF
 		}
 
 		T& Get() { return m_object; }
+
+		const T& Get() const { return m_object; }
 	};
 };
