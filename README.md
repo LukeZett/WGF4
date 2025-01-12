@@ -1,27 +1,39 @@
 # WGF4
 Framework for developing webGPU graphic applications using modern C++. This framework supports (or will support in the immediate future):
 
- - Window creation using glfw library (TODO: add support for SDL2)
+ - Window creation using the glfw library (TODO: add support for SDL2)
  - Easy management of graphic API objects, such as textures, using the RAII idiom
  - User input handling
 
-The minimal running application that only displays a blank window:
-
+## Usage
+The minimal running application which only displays a window with a clear color that changes over time
 ~~~C++
 #include "WGF4.h"
 
 int main()
 {
 	auto limits = WGF::DeviceLimits();
-	limits.SetTextureLimits(4096, 4096, 1, 1, 1); // these limits are needed for the initialization of screen buffer
+	limits.SetTextureLimits(4096, 4096, 1, 1, 1); // Set texture limits to 4096x4096 pixels, needed for the screen pass
+	WGF::Initialize(limits, WGF::WindowParameters(720, 480, "Hello World")); // Initialize WGF with a window of 720x480 pixels
 
-	WGF::Initialize(limits, WGF::WindowParameters(720, 480, "Hello World")); // initialize framework and window
+	WGF::ScreenPassFactory screenPassFactory;
+	screenPassFactory.SetColorAttachment(0, WGF::Clear, WGF::Store, { 0.0f, 0.0f, 0.0f, 1.0f }); // Set the color attachment to clear to black
 
-	while (!WGF::ShouldClose()) //main loop
+	float t = 0.0f; // time parameter
+	while (!WGF::ShouldClose())
 	{
-		WGF::Window().PollEvents(); // process user input
+		float r = 0.5f + 0.5f * sin(t);
+		float g = 0.5f + 0.5f * cos(t);
+		float b = 0.5f + 0.5f * sin(t + 3.14159f / 2.0f);
+		t += 0.01f;
+		screenPassFactory.SetColorAttachment(0, WGF::Clear, WGF::Store, { r, g, b, 1.0f }); // Set the color attachment to clear to a color that changes over time
+		auto pass = screenPassFactory.BeginPass(); // Begin the screen pass
+		if (!pass.IsValid()) break; // If the pass is invalid, break the loop (this can happen if the surface fails to provide the texture view)
+
+		screenPassFactory.EndPass(pass); // End the screen pass
+		WGF::Window().PollEvents(); // Poll user input events (needed for closing the window and resizing with the F11 key)
 	}
-  WGF::Finish();
+	WGF::Finish(); // Clean up WGF
 }
 ~~~
 [WiP]
