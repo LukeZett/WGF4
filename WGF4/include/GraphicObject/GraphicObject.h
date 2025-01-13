@@ -28,7 +28,7 @@ namespace WGF
 
 		GraphicObject& operator=(const GraphicObject& other) = delete;
 
-		GraphicObject& operator=(GraphicObject&& other)
+		GraphicObject& operator=(GraphicObject&& other) noexcept
 		{
 			if (this == &other) return *this;
 

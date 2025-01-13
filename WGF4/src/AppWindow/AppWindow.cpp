@@ -135,8 +135,6 @@ void WGF::AppWindow::OnResize(int width, int height)
 		m_depthTexture.Init(Width(), Height());
 		m_depthTexture.CreateView();
 	}
-
-
 }
 
 void AppWindow::OnKey(int key, int scancode, int action, int mods)

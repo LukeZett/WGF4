@@ -24,7 +24,7 @@ add_library(WGF4
     "include/AppWindow/WindowParameters.h" 
     "include/GraphicObject/Textures/TextureView.h" 
     "include/GraphicObject/Textures/Image.h"
- "src/GraphicObject/Textures/Texture2D.cpp" "include/GraphicObject/Textures/Texture2D.h" "include/GraphicObject/Textures/Texture1D.h" "include/GraphicObject/Textures/DepthTexture.h"  "include/GraphicObject/Textures/Texture2DArray.h" "include/GraphicObject/Textures/Texture3D.h" "include/GraphicObject/Passes/RenderPass.h" "include/GraphicObject/Passes/RenderPassFactory.h" "include/GraphicObject/Passes/ScreenPassFactory.h" "include/GraphicObject/Shader/Shader.h" "src/GraphicObject/Shader/Shader.cpp")
+ "src/GraphicObject/Textures/Texture2D.cpp" "include/GraphicObject/Textures/Texture2D.h" "include/GraphicObject/Textures/Texture1D.h" "include/GraphicObject/Textures/DepthTexture.h"  "include/GraphicObject/Textures/Texture2DArray.h" "include/GraphicObject/Textures/Texture3D.h" "include/GraphicObject/Passes/RenderPass.h" "include/GraphicObject/Passes/RenderPassFactory.h" "include/GraphicObject/Passes/ScreenPassFactory.h" "include/GraphicObject/Shader/Shader.h" "src/GraphicObject/Shader/Shader.cpp" "include/GraphicObject/BindGroup/BindGroup.h" "src/GraphicObject/BindGroup/BindGroup.cpp")
 
 
 set_target_properties(WGF4 PROPERTIES

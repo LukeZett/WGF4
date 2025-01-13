@@ -12,6 +12,7 @@ int main()
 
 	float t = 0.0f; // time parameter
 
+	WGF::Window().UseDepth();
 	while (!WGF::ShouldClose())
 	{
 		float r = 0.5f + 0.5f * sin(t);
