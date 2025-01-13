@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "GLFW/glfw3.h"
 #include <iostream>
 #include "webgpu/webgpu.h"
@@ -9,6 +8,7 @@
 #include <functional>
 #include "WindowParameters.h"
 #include "GraphicObject/Textures/DepthTexture.h"
+#include "GraphicObject/Enums/TextureFormat.h"
 
 #define RESIZE_CALLBACK(method, object) (std::function<void(WGF::ResizeEvent&)>)std::bind(&method, &object, std::placeholders::_1)
 #define KEYBOARD_CALLBACK(method, object) (std::function<void(WGF::KeyboardEvent&)>)std::bind(&method, &object, std::placeholders::_1)
@@ -23,14 +23,6 @@ namespace WGF
 		Fullscreen,
 		WindowedFullScreen,
 		Windowed
-	};
-
-	enum DepthTexFormat {
-		Depth24Plus = WGPUTextureFormat_Depth24Plus,
-		Depth24Stencil8 = WGPUTextureFormat_Depth24PlusStencil8,
-		Depth32 = WGPUTextureFormat_Depth32Float,
-		Depth16UNorm = WGPUTextureFormat_Depth16Unorm,
-		Depth32Stencil8 = WGPUTextureFormat_Depth32FloatStencil8
 	};
 
 	enum CursorMode
@@ -90,7 +82,7 @@ namespace WGF
 
 		inline WGPUSurface GetSurface() const { return m_surface; }
 
-		inline const WGPUTextureFormat& GetTextureFormat() const { return m_surfaceConfig.format; }
+		inline TextureFormat GetTextureFormat() const { return static_cast<TextureFormat>(m_surfaceConfig.format); }
 
 		inline int Width() const { return m_surfaceConfig.width; }
 
@@ -134,11 +126,11 @@ namespace WGF
 
 #pragma endregion
 
-		void UseDepth(DepthTexFormat format = Depth24Plus);
+		void UseDepth(TextureFormat format = Depth24Plus);
 
 		inline bool DepthEnabled() const { return m_useDepth; }
 
-		WGPUTextureFormat GetDepthFormat() { return m_depthTexture.GetDescriptor().format; }
+		TextureFormat GetDepthFormat() { return static_cast<TextureFormat>(m_depthTexture.GetDescriptor().format); }
 
 		WGPUTextureView GetDepthTexView() { return m_depthTexture.GetView(); }
 	};

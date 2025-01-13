@@ -21,7 +21,7 @@ namespace WGF
 		
 		GraphicObject(const GraphicObject& other) = delete;
 
-		GraphicObject(GraphicObject&& other) : m_object(other.m_object)
+		GraphicObject(GraphicObject&& other) noexcept : m_object(other.m_object)
 		{
 			other.m_object = nullptr;
 		}
@@ -58,5 +58,7 @@ namespace WGF
 		T& Get() { return m_object; }
 
 		const T& Get() const { return m_object; }
+
+		bool IsValid() const { return m_object != nullptr; }
 	};
 };

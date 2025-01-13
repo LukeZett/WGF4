@@ -16,6 +16,10 @@ namespace WGF
 		std::vector<WGPUBindGroupEntry> m_bindings;
 		GraphicObject<WGPUBindGroup, WGPUBindGroupDescriptor, CreateBindGroup, wgpuBindGroupRelease> m_bindGroup;
 	public:
+		BindGroup();
+
+		void SetLayout(const WGPUBindGroupLayout& bgLayout);
+
 		BindGroup(const WGPUBindGroupLayout& bgLayout);
 
 		void AddUniformBinding(uint32_t  binding, WGPUBuffer buffer, uint32_t offset, uint32_t bindingSize);

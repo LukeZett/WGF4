@@ -3,6 +3,7 @@
 #include "Framework/Device.h"
 #include "TextureView.h"
 #include "Logging/Logging.h"
+#include "GraphicObject/Enums/TextureFormat.h"
 
 namespace WGF
 {
@@ -35,7 +36,7 @@ namespace WGF
 
 		const WGPUTextureDescriptor& GetDescriptor() const { return m_desc; }
 
-		void SetFormat(WGPUTextureFormat format) { m_desc.format = format, m_viewDesc.format = format; }
+		void SetFormat(TextureFormat format) { m_desc.format = static_cast<WGPUTextureFormat>(format), m_viewDesc.format = static_cast<WGPUTextureFormat>(format); }
 
 		WGPUTextureViewDescriptor& GetViewDesc() { return m_viewDesc; }
 

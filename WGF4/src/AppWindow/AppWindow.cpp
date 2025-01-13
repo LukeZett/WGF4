@@ -179,7 +179,7 @@ void AppWindow::OnMouseClick(int key, int action, int mods)
 	}
 }
 
-void WGF::AppWindow::UseDepth(DepthTexFormat format)
+void WGF::AppWindow::UseDepth(TextureFormat format)
 {
 	m_useDepth = true;
 	WGPUTextureFormat f = static_cast<WGPUTextureFormat>(format);

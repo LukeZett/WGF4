@@ -14,6 +14,7 @@ namespace WGF
 
 	class Shader
 	{
+
 		friend RenderPipeline;
 
 		GraphicObject<WGPUShaderModule, WGPUShaderModuleDescriptor, CreateShaderModule, wgpuShaderModuleRelease> m_shaderModule;
@@ -24,8 +25,6 @@ namespace WGF
 		Shader();
 		
 		Shader(const std::filesystem::path& source);
-		
-		~Shader() = default;
 
 		void SetDesc();
 
@@ -34,5 +33,7 @@ namespace WGF
 		void ReloadModule();
 
 		std::string LoadFromPath(const std::filesystem::path& path);
+
+		bool IsValid() const { return m_shaderModule.IsValid(); }
 	};
 }
