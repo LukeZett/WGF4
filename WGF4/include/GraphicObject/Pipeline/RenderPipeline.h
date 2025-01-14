@@ -16,7 +16,14 @@ namespace WGF
 		GraphicObject<WGPURenderPipeline, WGPURenderPipelineDescriptor, CreateRenderPipeline, wgpuRenderPipelineRelease> m_renderPipeline;
 	
 	public:
-		RenderPipeline(const WGPURenderPipelineDescriptor& desc) : m_renderPipeline(desc) {}
+		RenderPipeline() = default;
+
+		RenderPipeline(WGPURenderPipelineDescriptor& desc, Shader&& shader) : Pipeline(std::move(shader))
+		{
+			const_cast<WGPUFragmentState*>(desc.fragment)->module = m_shaderModule.Get();
+			desc.vertex.module = m_shaderModule.Get();
+			m_renderPipeline = GraphicObject<WGPURenderPipeline, WGPURenderPipelineDescriptor, CreateRenderPipeline, wgpuRenderPipelineRelease>(desc);
+		}
 
 		inline const WGPURenderPipeline& Get() const { return m_renderPipeline.Get(); };
 

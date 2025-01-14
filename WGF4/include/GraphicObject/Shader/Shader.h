@@ -22,6 +22,8 @@ namespace WGF
 		WGPUShaderModuleWGSLDescriptor m_codeDesc = {};
 		std::filesystem::path m_source;
 	public:
+		static Shader CreateFromText(const std::string& source) { return Shader(source.c_str()); }
+
 		Shader();
 		
 		Shader(const std::filesystem::path& source);
@@ -35,5 +37,8 @@ namespace WGF
 		std::string LoadFromPath(const std::filesystem::path& path);
 
 		bool IsValid() const { return m_shaderModule.IsValid(); }
+
+	private:
+		Shader(const char* text);
 	};
 }

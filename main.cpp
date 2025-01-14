@@ -38,13 +38,3 @@ int main()
 	}
 	WGF::Finish(); // Clean up WGF
 }
-
-/**
-* WGF::RenderPipeline pipeline = builder
-*	.SetShader(path, "vs_main", "fs_main")
-*	.SetPrimitiveState(WGF::Topology::TriangleList, WGF::IndexFormat::Uint32, WGF::FrontFace::CCW, WGF::CullMode::None)
-*	.SetBlendState(WGF::BlendOperation::Add, WGF::BlendFactor::SrcAlpha, WGF::BlendFactor::OneMinusSrcAlpha)
-*	.SetDepthStencilState(WGF::CompareFunction::Less, true, true)
-*	.SetMultisampleState(1, 0xFFFFFFFF, false)
-*	...
-*/

@@ -17,9 +17,19 @@ WGF::RenderPipelineBuilder::RenderPipelineBuilder()
 
 }
 
-RenderPipelineBuilder& WGF::RenderPipelineBuilder::SetShader(const std::filesystem::path& path, const char* vs_main, const char* fs_main)
+RenderPipelineBuilder& WGF::RenderPipelineBuilder::SetShaderFromPath(const std::filesystem::path& path, const char* vs_main, const char* fs_main)
 {
-	m_shader = Shader(path);
+	m_shaderPath = path;
+	m_shaderType = ShaderSourceType::Filepath;
+	m_desc.vertex.entryPoint = vs_main;
+	m_fragmentState.entryPoint = fs_main;
+	return *this;
+}
+
+RenderPipelineBuilder& WGF::RenderPipelineBuilder::SetShaderFromText(const std::string& source, const char* vs_main, const char* fs_main)
+{
+	m_shaderSource = source;
+	m_shaderType = ShaderSourceType::Text;
 	m_desc.vertex.entryPoint = vs_main;
 	m_fragmentState.entryPoint = fs_main;
 	return *this;
@@ -81,13 +91,29 @@ RenderPipelineBuilder& WGF::RenderPipelineBuilder::SetMultisampleState(uint32_t 
 RenderPipeline WGF::RenderPipelineBuilder::Build()
 {
 	ConnectChain();
-	return RenderPipeline(m_desc);
+
+	Shader shader = CreateShader();
+
+	return RenderPipeline(m_desc, std::move(shader));
+}
+
+Shader WGF::RenderPipelineBuilder::CreateShader()
+{
+	switch (m_shaderType)
+	{
+	case WGF::RenderPipelineBuilder::Text:
+		return Shader::CreateFromText(m_shaderSource);
+	case WGF::RenderPipelineBuilder::Filepath:
+		return Shader(m_shaderPath);
+	case WGF::RenderPipelineBuilder::None:
+		return Shader();
+	default:
+		return Shader();
+	}
 }
 
 void WGF::RenderPipelineBuilder::ConnectChain()
 {
-	m_desc.vertex.module = m_shader.Get();
-	m_fragmentState.module = m_shader.Get();
 	m_desc.fragment = &m_fragmentState;
 	m_desc.depthStencil = &m_depthStencilState;
 

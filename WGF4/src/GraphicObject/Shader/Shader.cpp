@@ -33,6 +33,14 @@ Shader::Shader()
 	m_shaderModule = GraphicObject<WGPUShaderModule, WGPUShaderModuleDescriptor, CreateShaderModule, wgpuShaderModuleRelease>(m_desc);
 }
 
+Shader::Shader(const char* source)
+{
+	SetDesc();
+	m_codeDesc.code = source;
+	m_desc.nextInChain = &m_codeDesc.chain;
+	m_shaderModule = GraphicObject<WGPUShaderModule, WGPUShaderModuleDescriptor, CreateShaderModule, wgpuShaderModuleRelease>(m_desc);
+}
+
 
 void WGF::Shader::SetDesc()
 {

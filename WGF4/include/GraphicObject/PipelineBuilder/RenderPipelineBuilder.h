@@ -14,17 +14,29 @@ namespace WGF
 {
 	class RenderPipelineBuilder
 	{
+		enum ShaderSourceType
+		{
+			Text,
+			Filepath,
+			None
+		};
+
 		std::vector<WGPUColorTargetState> m_colorTargets;
 		std::vector<WGPUBlendState> m_blendStates;
 		WGPUDepthStencilState m_depthStencilState{};
 		WGPURenderPipelineDescriptor m_desc{};
 		WGPUFragmentState m_fragmentState{};
-		Shader m_shader = Shader();
+		
+		ShaderSourceType m_shaderType = ShaderSourceType::None;
+		std::string m_shaderSource = "";
+		std::filesystem::path m_shaderPath = "";
 
 	public:
 		RenderPipelineBuilder();
 
-		RenderPipelineBuilder& SetShader(const std::filesystem::path& path, const char* vs_main = "vs_main", const char* fs_main = "fs_main");
+		RenderPipelineBuilder& SetShaderFromPath(const std::filesystem::path& path, const char* vs_main = "vs_main", const char* fs_main = "fs_main");
+
+		RenderPipelineBuilder& SetShaderFromText(const std::string& source, const char* vs_main = "vs_main", const char* fs_main = "fs_main");
 
 		RenderPipelineBuilder& SetPrimitiveState(Topology primitiveTopology, FrontFace frontFace, CullMode cullMode, IndexFormat stripIndexFormat = Undefined);
 
@@ -39,6 +51,8 @@ namespace WGF
 		RenderPipelineBuilder& SetMultisampleState(uint32_t samplecount, uint32_t mask, bool alphaToCoverage);
 
 		RenderPipeline Build();
+
+		Shader CreateShader();
 
 	private:
 		void ConnectChain();

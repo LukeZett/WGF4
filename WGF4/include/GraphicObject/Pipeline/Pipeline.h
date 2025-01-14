@@ -20,5 +20,10 @@ namespace WGF
 		std::vector<WGPUBindGroupLayout> m_bindGroupLayouts;
 
 		~Pipeline() = default; // do not allow to delete through pointer to base class
+
+	public:
+		Pipeline() = default;
+
+		Pipeline(Shader&& shadermodule) : m_shaderModule(std::move(shadermodule)) {}
 	};
 }
