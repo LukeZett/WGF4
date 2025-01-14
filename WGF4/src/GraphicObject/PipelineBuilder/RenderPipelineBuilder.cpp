@@ -93,7 +93,22 @@ RenderPipeline WGF::RenderPipelineBuilder::Build()
 	Shader shader = CreateShader();
 	WGF::PipelineLayout layout = BuildPipelineLayout();
 
+	std::vector<WGPUVertexBufferLayout> wgpuVertexBufferLayouts;
+	for (size_t i = 0; i < m_vertexBufferLayouts.size(); i++)
+	{
+		wgpuVertexBufferLayouts.push_back(m_vertexBufferLayouts[i].GenerateVertexBufferLayout());
+	}
+	m_desc.vertex.bufferCount = static_cast<uint32_t>(wgpuVertexBufferLayouts.size());
+	m_desc.vertex.buffers = m_desc.vertex.bufferCount > 0 ? wgpuVertexBufferLayouts.data() : nullptr;
+
 	return RenderPipeline(m_desc, std::move(shader), std::move(layout));
+}
+
+BufferLayout& WGF::RenderPipelineBuilder::AddBufferLayout(uint16_t locationOffset, bool instanced)
+{
+	m_bufferLayoutOffsets.emplace_back(locationOffset);
+	m_vertexBufferLayouts.emplace_back(instanced);
+	return m_vertexBufferLayouts.back();
 }
 
 Shader WGF::RenderPipelineBuilder::CreateShader()

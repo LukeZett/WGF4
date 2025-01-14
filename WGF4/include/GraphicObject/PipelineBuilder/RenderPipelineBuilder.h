@@ -10,6 +10,7 @@
 #include "BlendState.h"
 #include "GraphicObject/Pipeline/RenderPipeline.h"
 #include "PipelineBuilder.h"
+#include <GraphicObject/Buffer/BufferLayout.h>
 
 namespace WGF
 {
@@ -20,6 +21,9 @@ namespace WGF
 		WGPUDepthStencilState m_depthStencilState{};
 		WGPURenderPipelineDescriptor m_desc{};
 		WGPUFragmentState m_fragmentState{};
+
+		std::vector<BufferLayout> m_vertexBufferLayouts;
+		std::vector<uint16_t> m_bufferLayoutOffsets;
 
 	public:
 		RenderPipelineBuilder();
@@ -41,6 +45,8 @@ namespace WGF
 		RenderPipelineBuilder& SetMultisampleState(uint32_t samplecount, uint32_t mask, bool alphaToCoverage);
 
 		RenderPipeline Build();
+
+		BufferLayout& AddBufferLayout(uint16_t locationOffset, bool instanced = false);
 
 		Shader CreateShader();
 

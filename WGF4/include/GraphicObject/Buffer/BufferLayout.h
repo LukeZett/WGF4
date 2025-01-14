@@ -22,13 +22,15 @@ namespace WGF
 		std::vector<BufferLayout::Element> m_elements;
 		uint32_t m_stride = 0;
 		WGPUVertexStepMode m_mode;
+		WGPUVertexBufferLayout m_vertexBufferLayout;
+		std::vector<WGPUVertexAttribute> m_vertexAttributes;
 
 	public:
 		BufferLayout(bool instanced);
 
 		void PrintLayout();
 
-		void GenerateVertexBufferLayout();
+		WGPUVertexBufferLayout& GenerateVertexBufferLayout(uint16_t shaderLocOffset = 0);
 
 		template<typename T>
 		inline BufferLayout& AddElement(int count) { LOG_ERROR("Unsupported vertex attribute type, skipping"); return *this; };

@@ -1,6 +1,7 @@
 #pragma once
 #include "GraphicObject/Pipeline/RenderPipeline.h"
 #include <GraphicObject/BindGroup/BindGroup.h>
+#include <GraphicObject/Buffer/Buffer.h>
 
 namespace WGF
 {
@@ -34,6 +35,12 @@ namespace WGF
 		void BindBindGroup(BindGroup& bindGroup, uint32_t index) const
 		{
 			wgpuRenderPassEncoderSetBindGroup(m_pass, index, bindGroup.Get(), 0, 0);
+		}
+
+		template<typename T>
+		void BindVertexBuffer(Buffer<T>& buffer, uint32_t slot, uint64_t offset, uint64_t size) const
+		{
+			wgpuRenderPassEncoderSetVertexBuffer(m_pass, slot, buffer.Get(), offset, size);
 		}
 
 		~RenderPass() = default;

@@ -21,7 +21,7 @@ namespace WGF
 
 		size_t Capacity() const { return m_buffer.Size() / sizeof(T); }
 
-		size_t Length() const { return m_length; }
+		uint32_t Length() const { return static_cast<uint32_t>(m_length); }
 
 		size_t CapacityInBytes() const { return m_buffer.Size(); }
 

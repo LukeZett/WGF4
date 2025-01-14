@@ -3,18 +3,8 @@
 const char *shaderSource =
 "@group(0) @binding(0) var<uniform> uColor: vec4f;                                    "
 "@vertex																			  "
-"fn vs_main(@builtin(vertex_index) in_vertex_index: u32) -> @builtin(position) vec4f {"
-"	var p = vec2f(0.0, 0.0);														  "
-"	if (in_vertex_index == 0u) {													  "
-"		p = vec2f(-0.5, -0.5);														  "
-"	}																				  "
-"	else if (in_vertex_index == 1u) {												  "
-"		p = vec2f(0.5, -0.5);														  "
-"	}																				  "
-"	else {																			  "
-"		p = vec2f(0.0, 0.5);														  "
-"	}																				  "
-"	return vec4f(p, 0.0, 1.0);														  "
+"fn vs_main(@location(0) in: vec2f) -> @builtin(position) vec4f {                     "
+"	return vec4f(in.x, in.y, 0.0, 1.0);											      "
 "}																					  "
 "																					  "
 "@fragment																			  "
@@ -30,7 +20,7 @@ int main()
 	limits
 		.SetTextureLimits(4096, 4096, 1, 1, 1) // Set texture limits to 4096x4096 pixels, needed for the screen pass
 		.SetBindGroupsLimits(1, 1, 96, 4) // Set bind group limits
-		.SetVertexRequiredLimits(4, 4, 4096, 96);
+		.SetVertexRequiredLimits(4, 4, 40960, 96);
 
 	WGF::Initialize(limits, WGF::WindowParameters(720, 480, "Hello World")); // Initialize WGF with a window of 720x480 pixels
 
@@ -40,12 +30,30 @@ int main()
 	screenPassFactory.SetColorAttachment(0, WGF::Clear, WGF::Store, { 0.0f, 0.0f, 0.0f, 1.0f }); // Set the color attachment to clear to black
 	WGF::Window().UseDepth();
 
+	//define a vertex buffer for triangles
+	std::vector<glm::vec2> vertices;
+	std::array<glm::vec2, 3> shape = { glm::vec2(0, 1), glm::vec2(-1, 1), glm::vec2(-1, -1) };
+	for (float x = -1; x < 1; x+=0.1f)
+	{
+		for (float y = -1; y < 1; y+=0.1f)
+		{
+			for (auto& v : shape)
+			{
+				vertices.push_back((v * 0.02f) + glm::vec2(x, y));
+			}
+		}
+	}
+	WGF::Buffer<glm::vec2> vertexBuffer = WGF::Buffer<glm::vec2>(WGPUBufferUsage_Vertex | WGPUBufferUsage_CopyDst, vertices.size());
+	vertexBuffer.Write(vertices, 0); // Write the vertices to the buffer
+
+
 	//define a render pipeline and its layout
 	WGF::RenderPipelineBuilder builder;
 	builder.AddScreenTarget(WGF::BlendState(), WGF::DepthStencilState())
 		.SetShaderFromText(shaderSource, "vs_main", "fs_main")
 		.AddBindGroupLayout().AddUniformBinding(0, WGF::Fragment, 4 * sizeof(float));
 
+	builder.AddBufferLayout(0).AddElement<float>(2); // Add a buffer layout with 2 floats
 	WGF::RenderPipeline pipeline = builder.Build(); // Build the pipeline
 
 	// define a single bind group that will be used by the pipeline
@@ -73,7 +81,8 @@ int main()
 		
 		pass.BindPipeline(pipeline); // Bind the pipeline to the pass
 		pass.BindBindGroup(bindGroup, 0); // Bind the bind group to the pass
-		pass.Draw(3); // Draw a triangle
+		pass.BindVertexBuffer<glm::vec2>(vertexBuffer, 0, 0, vertexBuffer.SizeInBytes()); // Bind the vertex buffer to the pass
+		pass.Draw(vertexBuffer.Length()); // Draw a triangle
 
 		screenPassFactory.EndPass(pass); // End the screen pass
 
