@@ -54,7 +54,7 @@ add_library(WGF4
     "include/GraphicObject/Enums/BlendOperation.h" 
     "include/GraphicObject/Enums/TextureFormat.h"
     "include/GraphicObject/Enums/CompareFunction.h"
- "include/GraphicObject/PipelineBuilder/BlendState.h" "include/GraphicObject/PipelineBuilder/DepthStencilState.h")
+ "include/GraphicObject/PipelineBuilder/BlendState.h" "include/GraphicObject/PipelineBuilder/DepthStencilState.h" "include/GraphicObject/BindGroup/BindGroupLayout.h"  "include/GraphicObject/Enums/TexDimension.h" "include/GraphicObject/Enums/ShaderStage.h" "include/GraphicObject/Enums/TexSampleType.h" "include/GraphicObject/Enums/TextureAccess.h" "include/GraphicObject/PipelineBuilder/PipelineBuilder.h" "src/GraphicObject/PipelineBuilder/PipelineBuilder.cpp" "include/GraphicObject/BindGroup/BindGroupLayoutBuilder.h" "src/GraphicObject/BindGroup/BindGroupLayoutBuilder.cpp" "include/GraphicObject/Pipeline/PipelineLayout.h")
 
 
 set_target_properties(WGF4 PROPERTIES

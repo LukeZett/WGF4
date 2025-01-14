@@ -1,6 +1,7 @@
 #pragma once
 #include "Framework/Device.h"
 #include "GraphicObject/GraphicObject.h"
+#include "BindGroupLayout.h"
 
 namespace WGF
 {
@@ -18,9 +19,9 @@ namespace WGF
 	public:
 		BindGroup();
 
-		void SetLayout(const WGPUBindGroupLayout& bgLayout);
+		void SetLayout(const BindGroupLayout& bgLayout);
 
-		BindGroup(const WGPUBindGroupLayout& bgLayout);
+		BindGroup(const BindGroupLayout& bgLayout);
 
 		void AddUniformBinding(uint32_t  binding, WGPUBuffer buffer, uint32_t offset, uint32_t bindingSize);
 

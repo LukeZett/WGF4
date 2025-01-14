@@ -3,6 +3,8 @@
 #include "GraphicObject/Passes/ScreenPassFactory.h"
 #include "GraphicObject/Passes/RenderPassFactory.h"
 #include "GraphicObject/PipelineBuilder/RenderPipelineBuilder.h"
+#include "GraphicObject/BindGroup/BindGroup.h"
+#include "GraphicObject/Buffer/Buffer.h"
 
 namespace WGF
 {

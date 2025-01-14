@@ -19,8 +19,7 @@ WGF::RenderPipelineBuilder::RenderPipelineBuilder()
 
 RenderPipelineBuilder& WGF::RenderPipelineBuilder::SetShaderFromPath(const std::filesystem::path& path, const char* vs_main, const char* fs_main)
 {
-	m_shaderPath = path;
-	m_shaderType = ShaderSourceType::Filepath;
+	PipelineBuilder::SetShaderFromPath(path);
 	m_desc.vertex.entryPoint = vs_main;
 	m_fragmentState.entryPoint = fs_main;
 	return *this;
@@ -28,8 +27,7 @@ RenderPipelineBuilder& WGF::RenderPipelineBuilder::SetShaderFromPath(const std::
 
 RenderPipelineBuilder& WGF::RenderPipelineBuilder::SetShaderFromText(const std::string& source, const char* vs_main, const char* fs_main)
 {
-	m_shaderSource = source;
-	m_shaderType = ShaderSourceType::Text;
+	PipelineBuilder::SetShaderFromText(source);
 	m_desc.vertex.entryPoint = vs_main;
 	m_fragmentState.entryPoint = fs_main;
 	return *this;
@@ -93,8 +91,9 @@ RenderPipeline WGF::RenderPipelineBuilder::Build()
 	ConnectChain();
 
 	Shader shader = CreateShader();
+	WGF::PipelineLayout layout = BuildPipelineLayout();
 
-	return RenderPipeline(m_desc, std::move(shader));
+	return RenderPipeline(m_desc, std::move(shader), std::move(layout));
 }
 
 Shader WGF::RenderPipelineBuilder::CreateShader()

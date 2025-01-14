@@ -22,6 +22,15 @@ namespace WGF
 		{
 			const_cast<WGPUFragmentState*>(desc.fragment)->module = m_shaderModule.Get();
 			desc.vertex.module = m_shaderModule.Get();
+			desc.layout = m_pipelineLayout.Get();
+			m_renderPipeline = GraphicObject<WGPURenderPipeline, WGPURenderPipelineDescriptor, CreateRenderPipeline, wgpuRenderPipelineRelease>(desc);
+		}
+
+		RenderPipeline(WGPURenderPipelineDescriptor& desc, Shader&& shader, PipelineLayout&& layout) : Pipeline(std::move(shader), std::move(layout))
+		{
+			const_cast<WGPUFragmentState*>(desc.fragment)->module = m_shaderModule.Get();
+			desc.vertex.module = m_shaderModule.Get();
+			desc.layout = m_pipelineLayout.Get();
 			m_renderPipeline = GraphicObject<WGPURenderPipeline, WGPURenderPipelineDescriptor, CreateRenderPipeline, wgpuRenderPipelineRelease>(desc);
 		}
 

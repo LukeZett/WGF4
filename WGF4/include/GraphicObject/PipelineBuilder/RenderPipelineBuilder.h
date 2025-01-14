@@ -9,27 +9,17 @@
 #include "DepthStencilState.h"
 #include "BlendState.h"
 #include "GraphicObject/Pipeline/RenderPipeline.h"
+#include "PipelineBuilder.h"
 
 namespace WGF
 {
-	class RenderPipelineBuilder
+	class RenderPipelineBuilder : public PipelineBuilder
 	{
-		enum ShaderSourceType
-		{
-			Text,
-			Filepath,
-			None
-		};
-
 		std::vector<WGPUColorTargetState> m_colorTargets;
 		std::vector<WGPUBlendState> m_blendStates;
 		WGPUDepthStencilState m_depthStencilState{};
 		WGPURenderPipelineDescriptor m_desc{};
 		WGPUFragmentState m_fragmentState{};
-		
-		ShaderSourceType m_shaderType = ShaderSourceType::None;
-		std::string m_shaderSource = "";
-		std::filesystem::path m_shaderPath = "";
 
 	public:
 		RenderPipelineBuilder();

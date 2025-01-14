@@ -8,15 +8,15 @@ WGF::BindGroup::BindGroup()
 	m_bindGroupDesc.layout = nullptr;
 }
 
-void WGF::BindGroup::SetLayout(const WGPUBindGroupLayout& bgLayout)
+void WGF::BindGroup::SetLayout(const BindGroupLayout& bgLayout)
 {
-	m_bindGroupDesc.layout = bgLayout;
+	m_bindGroupDesc.layout = bgLayout.Get();
 }
 
-BindGroup::BindGroup(const WGPUBindGroupLayout& bgLayout)
+BindGroup::BindGroup(const BindGroupLayout& bgLayout)
 {
 	m_bindGroupDesc.nextInChain = nullptr;
-	m_bindGroupDesc.layout = bgLayout;
+	m_bindGroupDesc.layout = bgLayout.Get();
 }
 
 void BindGroup::AddUniformBinding(uint32_t bindingIndex, WGPUBuffer buffer, uint32_t offset, uint32_t bindingSize)

@@ -1,5 +1,6 @@
 #pragma once
 #include "GraphicObject/Pipeline/RenderPipeline.h"
+#include <GraphicObject/BindGroup/BindGroup.h>
 
 namespace WGF
 {
@@ -28,6 +29,11 @@ namespace WGF
 		void BindPipeline(const RenderPipeline& pipeline) const
 		{
 			wgpuRenderPassEncoderSetPipeline(m_pass, pipeline.Get());
+		}
+
+		void BindBindGroup(BindGroup& bindGroup, uint32_t index) const
+		{
+			wgpuRenderPassEncoderSetBindGroup(m_pass, index, bindGroup.Get(), 0, 0);
 		}
 
 		~RenderPass() = default;
