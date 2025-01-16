@@ -5,8 +5,18 @@ Framework for developing webGPU graphic applications using modern C++. This fram
  - Easy management of graphic API objects, such as textures, using the RAII idiom
  - User input handling
 
+## Getting started	
+ - clone the repository into the source tree ``` git clone https://github.com/LukeZett/WGF4.git ```
+ - add directory in CMake and link library ``` add_subdirectory ("WGF4") ``` ``` target_link_libraries(target PRIVATE WGF4) ```
+ - copy the wgpu library binaries next to the executable binary ``` TARGET_COPY_WEBGPU_BINARIES(target) ```
+
+### Requirements
+ - CMake (>= 3.8)
+ - C++ compiler (C++ 20)
+ - Tested on Windows
+
 ## Usage
-The minimal running application which only displays a window with a clear color that changes over time
+The minimal running application that only displays a window with a clear color that changes over time
 ~~~C++
 #include "WGF4.h"
 
