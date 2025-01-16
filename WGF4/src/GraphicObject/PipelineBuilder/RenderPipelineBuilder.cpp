@@ -86,6 +86,12 @@ RenderPipelineBuilder& WGF::RenderPipelineBuilder::SetMultisampleState(uint32_t 
 	return *this;
 }
 
+RenderPipelineBuilder& WGF::RenderPipelineBuilder::AppendBindGroupLayout(const BindGroupLayoutBuilder& layout)
+{
+	PipelineBuilder::AddBindGroupLayout(layout);
+	return *this;
+}
+
 RenderPipeline WGF::RenderPipelineBuilder::Build()
 {
 	ConnectChain();
@@ -109,6 +115,13 @@ BufferLayout& WGF::RenderPipelineBuilder::AddBufferLayout(uint16_t locationOffse
 	m_bufferLayoutOffsets.emplace_back(locationOffset);
 	m_vertexBufferLayouts.emplace_back(instanced);
 	return m_vertexBufferLayouts.back();
+}
+
+RenderPipelineBuilder& WGF::RenderPipelineBuilder::AppendBufferLayout(uint16_t locationOffset, const BufferLayout& layout)
+{
+	m_bufferLayoutOffsets.emplace_back(locationOffset);
+	m_vertexBufferLayouts.emplace_back(layout);
+	return *this;
 }
 
 Shader WGF::RenderPipelineBuilder::CreateShader()

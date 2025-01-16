@@ -21,10 +21,10 @@ namespace WGF
 
 		using WGPUBGLayout = GraphicObject<WGPUBindGroupLayout, WGPUBindGroupLayoutDescriptor, CreateBindGroupLayout, wgpuBindGroupLayoutRelease>;
 
-		WGPUBGLayout m_bindGroupLayout;
+		//WGPUBGLayout m_bindGroupLayout;
 
 		std::vector<WGPUBindGroupLayoutEntry> m_entries;
-		WGPUBindGroupLayoutDescriptor m_desc;
+		WGPUBindGroupLayoutDescriptor m_desc{};
 
 	public:
 

@@ -34,6 +34,8 @@ namespace WGF
 		inline BindGroupLayoutBuilder& GetBindGroupLayout(size_t index) { return m_bindGroupLayouts[index]; };
 
 	protected:
+		inline void AddBindGroupLayout(const BindGroupLayoutBuilder& layout) { m_bindGroupLayouts.emplace_back(layout); };
+
 		PipelineLayout BuildPipelineLayout();
 
 		std::vector<BindGroupLayout> GetBindGroupLayouts();

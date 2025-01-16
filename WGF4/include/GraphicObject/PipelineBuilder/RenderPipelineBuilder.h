@@ -44,9 +44,13 @@ namespace WGF
 
 		RenderPipelineBuilder& SetMultisampleState(uint32_t samplecount, uint32_t mask, bool alphaToCoverage);
 
+		RenderPipelineBuilder& AppendBindGroupLayout(const BindGroupLayoutBuilder& layout);
+		
 		RenderPipeline Build();
 
 		BufferLayout& AddBufferLayout(uint16_t locationOffset, bool instanced = false);
+
+		RenderPipelineBuilder& AppendBufferLayout(uint16_t locationOffset, const BufferLayout& layout);
 
 		Shader CreateShader();
 

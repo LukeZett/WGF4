@@ -41,14 +41,14 @@ public:
 int main()
 {
 	/// initialize WGF
-	auto limits = WGF::DeviceLimits();
-	limits
-		.SetTextureLimits(4096, 4096, 1, 1, 1) // Set texture limits to 4096x4096 pixels, needed for the screen pass
-		.SetBindGroupsLimits(1, 4, 96, 4) // Set bind group limits
-		.SetVertexRequiredLimits(4, 4, 40960, 96)
-		.SetInterShaderStageLimits(4, 4);
-
-	WGF::Initialize(limits, WGF::WindowParameters(720, 480, "Hello World")); // Initialize WGF with a window of 720x480 pixels
+	WGF::Initialize(
+		WGF::DeviceLimits()
+			.SetTextureLimits(4096, 4096, 1, 1, 1) // Set texture limits to 4096x4096 pixels, needed for the screen pass
+			.SetBindGroupsLimits(1, 4, 96, 4) // Set bind group limits
+			.SetVertexRequiredLimits(4, 4, 40960, 96)
+			.SetInterShaderStageLimits(4, 4),
+		WGF::WindowParameters(720, 480, "Hello World")
+	); // Initialize WGF with a window of 720x480 pixels
 
 	EventListener listener;
 	WGF::Window().SetMouseMoveCallback(MOUSEMOVE_CALLBACK(EventListener::OnMouseMove, listener));
@@ -80,11 +80,14 @@ int main()
 	builder
 		.AddScreenTarget(WGF::BlendState(), WGF::DepthStencilState())
 		.SetShaderFromText(shaderSource, "vs_main", "fs_main")
-		.AddBindGroupLayout()
+		.AppendBindGroupLayout(WGF::BindGroupLayoutBuilder()
 			.AddUniformBinding(0, WGF::Fragment, 4 * sizeof(float))
-			.AddUniformBinding(1, WGF::Fragment, 2 * sizeof(float));
+			.AddUniformBinding(1, WGF::Fragment, 2 * sizeof(float))
+		)
+		.AppendBufferLayout(0, WGF::BufferLayout(false)
+			.AddElement<float>(2)
+		);
 
-	builder.AddBufferLayout(0).AddElement<float>(2); // Add a buffer layout with 2 floats
 	WGF::RenderPipeline pipeline = builder.Build(); // Build the pipeline
 
 	// define a single bind group that will be used by the pipeline
