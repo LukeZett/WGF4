@@ -47,6 +47,7 @@ namespace WGF
 		std::function<void(MouseMoveEvent&)> m_mouseMoveHandler = nullptr;
 
 		bool m_useDepth = false;
+		bool m_closeFlag = false;
 	public:
 		/**
 		* @brief Create unintialized window instance
@@ -61,7 +62,12 @@ namespace WGF
 		/**
 		* @brief returns window's close flag
 		*/
-		inline bool ShouldClose() { return glfwWindowShouldClose(m_window); }
+		inline bool ShouldClose() { return glfwWindowShouldClose(m_window) || m_closeFlag; }
+
+		/**
+		* @brief Close window
+		*/
+		inline void Close() { m_closeFlag = true; }
 
 		/**
 		* @brief Process events such as user input
