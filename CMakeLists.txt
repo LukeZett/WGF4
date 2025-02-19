@@ -11,7 +11,8 @@ endif()
 
 project ("WGF4")
 
-add_executable(Demo main.cpp)
+add_executable(Demo "main.cpp")
+add_executable(DemoAppModule "appMain.cpp")
 
 set_target_properties(Demo PROPERTIES
     CXX_STANDARD 20
@@ -20,12 +21,22 @@ set_target_properties(Demo PROPERTIES
     COMPILE_WARNING_AS_ERROR ON
 )
 
-# Include sub-projects.
-add_subdirectory(vendor/glm)
-add_subdirectory(vendor/glfw)
-add_subdirectory(vendor/glfw3webgpu)
-add_subdirectory ("WGF4")
+set_target_properties(DemoAppModule PROPERTIES
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED ON
+    CXX_EXTENSIONS OFF
+    COMPILE_WARNING_AS_ERROR ON
+)
 
-target_link_libraries(Demo WGF4)
+# Include sub-projects.
+add_subdirectory("vendor/glm")
+add_subdirectory("vendor/glfw")
+add_subdirectory("vendor/glfw3webgpu")
+add_subdirectory ("WGF4")
+add_subdirectory("WGF4App")
+
+target_link_libraries(Demo WGF4 WGF4App)
+target_link_libraries(DemoAppModule WGF4 WGF4App)
 
 target_copy_webgpu_binaries(Demo)
+target_copy_webgpu_binaries(DemoAppModule)
